@@ -59,12 +59,12 @@ export const refresh = (req, res, next) => {
         const refreshTokenSecret = process.env.REFRESH_TOKEN_SECRET
         const newRefreshToken = jwt.sign({ userId: user.username }, refreshTokenSecret, { expiresIn: '3m' })
         res.cookie('jwt', newRefreshToken, {
-          httpOnly: true,
+          httpOnly: false,
           sameSite: 'None',
           secure: true,
           maxAge: 24 * 60 * 60 * 1000
         })
-        // TODO: invalidate old token
+        // TODO: invalidate old token?
 
         res.status(200).send({ accessToken })
       }
