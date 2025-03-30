@@ -6,7 +6,10 @@ Just a quick project to test basic implementation of password encryption and JWT
 
 ### Resources
 
+- [https://www.npmjs.com/package/jsonwebtoken](https://www.npmjs.com/package/jsonwebtoken)
+- [https://www.npmjs.com/package/cookie-parser](https://www.npmjs.com/package/cookie-parser)
 - [https://atalupadhyay.wordpress.com/2025/03/05/refresh-tokens-in-jwt-authentication-keeping-users-logged-in-securely/](https://atalupadhyay.wordpress.com/2025/03/05/refresh-tokens-in-jwt-authentication-keeping-users-logged-in-securely/)
+- [https://www.geeksforgeeks.org/jwt-authentication-with-refresh-tokens/](https://www.geeksforgeeks.org/jwt-authentication-with-refresh-tokens/)
 
 ### To Do
 
