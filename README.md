@@ -2,9 +2,20 @@
 
 Just a quick project to test basic implementation of password encryption and JWT authentication.
 
-## Resources
+## Project Info
+
+### Resources
 
 - [https://atalupadhyay.wordpress.com/2025/03/05/refresh-tokens-in-jwt-authentication-keeping-users-logged-in-securely/](https://atalupadhyay.wordpress.com/2025/03/05/refresh-tokens-in-jwt-authentication-keeping-users-logged-in-securely/)
+
+### To Do
+
+- Implement authorization rules/roles in JWT (admin, specific resource, etc)
+- DRY: Create JWT generation helper function
+- Additional security:
+  - Encrypt refresh token, store it on the  in db, and encrypted version to cookie
+  - Invalidate old tokens
+  - More checks to validate token (exists in db, signing, etc)
 
 ## Local Dev
 
