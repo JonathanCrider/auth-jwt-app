@@ -4,7 +4,8 @@ export const db = {
   users: [
     {
       username: 'testuser',
-      password: 'testpassword'
+      password: 'testpassword',
+      email: 'test@email.com'
     }
   ]
 }
