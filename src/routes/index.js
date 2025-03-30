@@ -1,7 +1,9 @@
-import userRoutes from './userRoutes.js'
+import accessRoutes from './accessRoutes.js'
 import protectedRoutes from './protectedRoutes.js'
+import userRoutes from './userRoutes.js'
 
 export {
-  userRoutes,
-  protectedRoutes
+  accessRoutes,
+  protectedRoutes,
+  userRoutes
 }
