@@ -24,6 +24,7 @@ export const loginUser = async (req, res, next) => {
   }
 
   // Create jwt access token
+  // TODO: implement authorization access
   const accessTokenSecret = process.env.ACCESS_TOKEN_SECRET
   const accessToken = jwt.sign({ userId: user.username, email: user.email }, accessTokenSecret, { expiresIn: '1m' })
   
@@ -31,9 +32,9 @@ export const loginUser = async (req, res, next) => {
   const refreshTokenSecret = process.env.REFRESH_TOKEN_SECRET
   // refresh token must expire AFTER access token. Times are super short for testing
   // TODO: should also encrypt refresh token, store it on the user, and encrypted version to cookie?
-  const refreshToken = jwt.sign({ userId: user.username }, refreshTokenSecret, { expiresIn: '3m' })
+  const refreshToken = jwt.sign({ userId: user.username, email: user.email }, refreshTokenSecret, { expiresIn: '3m' })
   res.cookie('jwt', refreshToken, {
-    httpOnly: false, // should be true, false because we're testing locally
+    httpsOnly: true,
     sameSite: 'None',
     secure: true,
     maxAge: 24 * 60 * 60 * 1000
@@ -54,12 +55,12 @@ export const refresh = (req, res, next) => {
         res.status(401).send({ message: 'Invalid or expired token, please log in again' })
       } else {
         const accessTokenSecret = process.env.ACCESS_TOKEN_SECRET
-        const accessToken = jwt.sign({ userId: user.username, email: user.email }, accessTokenSecret, { expiresIn: '1m' })
+        const accessToken = jwt.sign({ userId: user.userId, email: user.email }, accessTokenSecret, { expiresIn: '1m' })
 
         const refreshTokenSecret = process.env.REFRESH_TOKEN_SECRET
-        const newRefreshToken = jwt.sign({ userId: user.username }, refreshTokenSecret, { expiresIn: '3m' })
+        const newRefreshToken = jwt.sign({ userId: user.userId, email: user.email }, refreshTokenSecret, { expiresIn: '3m' })
         res.cookie('jwt', newRefreshToken, {
-          httpOnly: false,
+          httpOnly: true,
           sameSite: 'None',
           secure: true,
           maxAge: 24 * 60 * 60 * 1000
