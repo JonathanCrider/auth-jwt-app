@@ -14,7 +14,6 @@ export const createUser = async (req, res, next) => {
 }
 
 // User Login
-
 export const loginUser = async (req, res, next) => {
   const { username, password } = req.body
   const user = db.users.find(u => u.username === username)
@@ -24,14 +23,12 @@ export const loginUser = async (req, res, next) => {
   }
 
   // Create jwt access token
-  // TODO: implement authorization access
   const accessTokenSecret = process.env.ACCESS_TOKEN_SECRET
   const accessToken = jwt.sign({ userId: user.username, email: user.email }, accessTokenSecret, { expiresIn: '1m' })
   
   // Create and set jwt refresh token
   const refreshTokenSecret = process.env.REFRESH_TOKEN_SECRET
   // refresh token must expire AFTER access token. Times are super short for testing
-  // TODO: should also encrypt refresh token, store it on the user, and encrypted version to cookie?
   const refreshToken = jwt.sign({ userId: user.username, email: user.email }, refreshTokenSecret, { expiresIn: '3m' })
   res.cookie('jwt', refreshToken, {
     httpsOnly: true,
@@ -43,13 +40,12 @@ export const loginUser = async (req, res, next) => {
   res.status(200).send({ accessToken })
 }
 
+// Refresh JWT
 export const refresh = (req, res, next) => {
-  // req.headers.cookie vs req.cookies
   if (req.cookies?.jwt) {
     const refreshToken = req.cookies.jwt
     const refreshTokenSecret = process.env.REFRESH_TOKEN_SECRET 
 
-    // add more verification, perhaps
     jwt.verify(refreshToken, refreshTokenSecret, (err, user) => {
       if (err) {
         res.status(401).send({ message: 'Invalid or expired token, please log in again' })
@@ -65,7 +61,6 @@ export const refresh = (req, res, next) => {
           secure: true,
           maxAge: 24 * 60 * 60 * 1000
         })
-        // TODO: invalidate old token?
 
         res.status(200).send({ accessToken })
       }
